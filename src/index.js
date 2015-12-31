@@ -33,8 +33,12 @@ export default function({ types: t, template }) {
 
   // `foo({ displayName: 'NAME' });` => 'NAME'
   function getDisplayName(node) {
-    const property = find(node.arguments[0].properties, node => node.key.name === 'displayName');
-    return property && property.value.value;
+    if (node.arguments[0].properties) {
+      const property = find(node.arguments[0].properties, node => node.key.name === 'displayName');
+      return property && property.value.value;
+    } else {
+      return node.arguments[0].name;
+    }
   }
 
   function hasParentFunction(path) {
